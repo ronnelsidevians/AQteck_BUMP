@@ -1,45 +1,179 @@
-# BUMP Search PWA — GitHub Pages
-
-## Що завантажити у репозиторій
-
-Обов'язково:
-- `index.html`
-- `manifest.webmanifest`
-- `sw.js`
-- папку `icons/`
-- `.nojekyll`
-
-Для повного офлайн-доступу до схем також поклади поруч папки зі схемами:
-- `schemes/`
-- `sheets/`
-
-Шляхи у HTML вже відносні, наприклад `./schemes/...png` та `./sheets/AQteck_Bump_01.png`.
-
-## GitHub Pages
-
-### Варіант 1 — простий
-
-1. Створи репозиторій GitHub.
-2. Завантаж файли з цього ZIP у корінь репозиторію.
-3. Repository → Settings → Pages.
-4. Source: Deploy from a branch.
-5. Branch: `main`, folder: `/root`.
-6. Відкрий URL, який покаже GitHub Pages.
-
-### Варіант 2 — через GitHub Actions
-
-У ZIP вже є `.github/workflows/pages.yml`. Якщо хочеш деплой через Actions:
-
-1. Repository → Settings → Pages.
-2. Source: GitHub Actions.
-3. Push у `main` запустить workflow автоматично.
-
-## Встановлення PWA
-
-- Android / Chrome / Edge: кнопка `⬇️` або меню браузера → Install app.
-- iPhone / iPad: Safari → Share → Add to Home Screen.
-- Windows / macOS Chrome/Edge: адресний рядок або кнопка `⬇️`.
-
-## Офлайн
-
-Після першого відкриття онлайн service worker кешує HTML, manifest, іконки та доступні PNG-схеми. Якщо якісь PNG відсутні в репозиторії, кешування їх пропускає без помилки.
+/* BUMP Search PWA service worker */
+const CACHE_NAME='bump-search-pwa-v1779259284';
+const CORE_ASSETS=[
+  "./",
+  "./AQteck_Bump_01.png",
+  "./AQteck_Bump_02.png",
+  "./AQteck_Bump_03.png",
+  "./AQteck_Bump_04.png",
+  "./AQteck_Bump_05.png",
+  "./AQteck_Bump_06.png",
+  "./AQteck_Bump_07.png",
+  "./AQteck_Bump_08.png",
+  "./AQteck_Bump_09.png",
+  "./AQteck_Bump_10.png",
+  "./AQteck_Bump_11.png",
+  "./AQteck_Bump_12.png",
+  "./AQteck_Bump_13.png",
+  "./favicon.ico",
+  "./icons/apple-touch-icon.png",
+  "./icons/icon-192.png",
+  "./icons/icon-512.png",
+  "./index.html",
+  "./manifest.webmanifest",
+  "./schemes/AQteck_Bump_01.png",
+  "./schemes/AQteck_Bump_02.png",
+  "./schemes/AQteck_Bump_03.png",
+  "./schemes/AQteck_Bump_04.png",
+  "./schemes/AQteck_Bump_05.png",
+  "./schemes/AQteck_Bump_06.png",
+  "./schemes/AQteck_Bump_07.png",
+  "./schemes/AQteck_Bump_08.png",
+  "./schemes/AQteck_Bump_09.png",
+  "./schemes/AQteck_Bump_10.png",
+  "./schemes/AQteck_Bump_11.png",
+  "./schemes/AQteck_Bump_12.png",
+  "./schemes/AQteck_Bump_13.png",
+  "./schemes/avariia_tysku_hazu.png",
+  "./schemes/avariinyi_syhnal_hnizda.png",
+  "./schemes/avariinyi_syhnal_osvitlennia.png",
+  "./schemes/avariinyi_syhnal_shchyta_hodivli.png",
+  "./schemes/avariinyi_syhnal_shchyta_ventyliatsii.png",
+  "./schemes/avariinyi_syhnal_zhyvlennia_merezhi_vent_230v.png",
+  "./schemes/datchyk_shvydkosti_rukhu_povitria.png",
+  "./schemes/datchyk_temperatury_zony_1.png",
+  "./schemes/datchyk_temperatury_zony_2.png",
+  "./schemes/datchyk_temperatury_zony_3.png",
+  "./schemes/datchyk_temperatury_zony_4.png",
+  "./schemes/datchyk_temperatury_zovnishnoho_povitria.png",
+  "./schemes/datchyk_volohosti_v_prymishchenni.png",
+  "./schemes/datchyk_zovnishnoi_volohosti.png",
+  "./schemes/faza_220v.png",
+  "./schemes/hnizdo_1_vidkryty.png",
+  "./schemes/hnizdo_2_vidkryty.png",
+  "./schemes/keruvannia_osvitlenniam.png",
+  "./schemes/keruvannia_pryplyvnym_klapanom_1.png",
+  "./schemes/keruvannia_pryplyvnym_klapanom_2.png",
+  "./schemes/kintsevyi_vymykach_hnizdo_1_zakryto.png",
+  "./schemes/kintsevyi_vymykach_hnizdo_2_vidkryto.png",
+  "./schemes/kintsevyi_vymykach_hnizdo_2_zakryto.png",
+  "./schemes/kintsevyi_vymykach_hnuzdo_1_vidkryto.png",
+  "./schemes/lichylnyk_vody.png",
+  "./schemes/neitral.png",
+  "./schemes/pokazannia_vah_0_5v.png",
+  "./schemes/potentsiometr_pryplyvnoho_klapana_1.png",
+  "./schemes/potentsiometr_pryplyvnoho_klapana_2.png",
+  "./schemes/potentsiometr_tunelnoho_klapana_1.png",
+  "./schemes/potentsiometr_tunelnoho_klapana_2.png",
+  "./schemes/potentsiometr_tunelnoho_klapana_3.png",
+  "./schemes/pryplyvna_rekuperatsiia_liva.png",
+  "./schemes/pryplyvna_rekuperatsiia_prava.png",
+  "./schemes/rele_osvitlennia.png",
+  "./schemes/rezerv.png",
+  "./schemes/rezhym_hodivli_kurei.png",
+  "./schemes/rezhym_hodivli_pivniv.png",
+  "./schemes/rezhym_khopper_1.png",
+  "./schemes/rezhym_khopper_10.png",
+  "./schemes/rezhym_khopper_11.png",
+  "./schemes/rezhym_khopper_12.png",
+  "./schemes/rezhym_khopper_13.png",
+  "./schemes/rezhym_khopper_2.png",
+  "./schemes/rezhym_khopper_3.png",
+  "./schemes/rezhym_khopper_4.png",
+  "./schemes/rezhym_khopper_5.png",
+  "./schemes/rezhym_khopper_6.png",
+  "./schemes/rezhym_khopper_7.png",
+  "./schemes/rezhym_khopper_8.png",
+  "./schemes/rezhym_khopper_9.png",
+  "./schemes/rezhym_okholodzhennia.png",
+  "./schemes/rezhym_pryplyvnoho_klapana_1.png",
+  "./schemes/rezhym_pryplyvnoho_klapana_2.png",
+  "./schemes/rezhym_rozhinnykh_ventyliatoriv_1.png",
+  "./schemes/rezhym_rozhinnykh_ventyliatoriv_2.png",
+  "./schemes/rezhym_systemy_poinnia.png",
+  "./schemes/rezhym_taimera_hnizda_1.png",
+  "./schemes/rezhym_taimera_hnizda_2.png",
+  "./schemes/rezhym_teploheneratoriv_1.png",
+  "./schemes/rezhym_teploheneratoriv_2.png",
+  "./schemes/rezhym_tunelnykh_klapaniv_bokovykh_1.png",
+  "./schemes/rezhym_tunelnykh_klapaniv_bokovykh_2.png",
+  "./schemes/rezhym_ventyliatsii_1.png",
+  "./schemes/rezhym_ventyliatsii_2.png",
+  "./schemes/rezhym_ventyliatsii_3.png",
+  "./schemes/rezhym_ventyliatsii_4.png",
+  "./schemes/rezhym_ventyliatsii_5.png",
+  "./schemes/rezhym_ventyliatsii_6.png",
+  "./schemes/rezhym_zapovnennia_bunkera_na_vahy.png",
+  "./schemes/rezhym_zaslinky_khoppera.png",
+  "./schemes/rezhym_zaslinky_vah.png",
+  "./schemes/rs485_2_pidkliuchennia_brm.png",
+  "./schemes/shnek_zapovnennia_kormovoho_bunkera_1.png",
+  "./schemes/shnek_zapovnennia_kormovoho_bunkera_2.png",
+  "./schemes/shnek_zapovnennia_kormovoho_bunkera_3.png",
+  "./schemes/shnek_zapovnennia_kormovoho_bunkera_4.png",
+  "./schemes/shnek_zapovnennia_vahovoho_bunkera.png",
+  "./schemes/strichka_iaitsezboru_1.png",
+  "./schemes/strichka_iaitsezboru_2.png",
+  "./schemes/syhnal_vidkr_zaslinky_khoppera.png",
+  "./schemes/syhnal_vidkr_zaslinky_vah.png",
+  "./schemes/syhnalizatsiia.png",
+  "./schemes/teploheneratory_1.png",
+  "./schemes/teploheneratory_2.png",
+  "./schemes/teploheneratory_3.png",
+  "./schemes/teploheneratory_4.png",
+  "./schemes/uvimk_vymk_kormolinii_kury.png",
+  "./schemes/uvimk_vymk_kormolinii_pivni.png",
+  "./schemes/uvimk_vymk_okholodzhennia.png",
+  "./schemes/uvimk_vymk_systemu_napuvannia.png",
+  "./schemes/ventyliatsiia_1.png",
+  "./schemes/ventyliatsiia_2.png",
+  "./schemes/ventyliatsiia_3.png",
+  "./schemes/ventyliatsiia_4.png",
+  "./schemes/ventyliatsiia_5.png",
+  "./schemes/ventyliatsiia_6.png",
+  "./schemes/vidkr_zakr_khopper_1.png",
+  "./schemes/vidkr_zakr_khopper_10.png",
+  "./schemes/vidkr_zakr_khopper_11.png",
+  "./schemes/vidkr_zakr_khopper_12.png",
+  "./schemes/vidkr_zakr_khopper_13.png",
+  "./schemes/vidkr_zakr_khopper_14.png",
+  "./schemes/vidkr_zakr_khopper_15.png",
+  "./schemes/vidkr_zakr_khopper_2.png",
+  "./schemes/vidkr_zakr_khopper_3.png",
+  "./schemes/vidkr_zakr_khopper_4.png",
+  "./schemes/vidkr_zakr_khopper_5.png",
+  "./schemes/vidkr_zakr_khopper_6.png",
+  "./schemes/vidkr_zakr_khopper_7.png",
+  "./schemes/vidkr_zakr_khopper_8.png",
+  "./schemes/vidkr_zakr_khopper_9.png",
+  "./schemes/vidkryty_pryplyvnyi_klapan_1.png",
+  "./schemes/vidkryty_pryplyvnyi_klapan_2.png",
+  "./schemes/vidkryty_tunelni_klapany_bokovi_1.png",
+  "./schemes/vidkryty_tunelni_klapany_bokovi_2.png",
+  "./schemes/vidkryty_tunelni_klapany_bokovi_3.png",
+  "./schemes/vytiazhna_rekuperatsiia_liva.png",
+  "./schemes/vytiazhna_rekuperatsiia_prava.png",
+  "./schemes/zakryty_pryplyvnyi_klapan_1.png",
+  "./schemes/zakryty_pryplyvnyi_klapan_2.png",
+  "./schemes/zakryty_tunelni_klapany_bokovi_1.png",
+  "./schemes/zakryty_tunelni_klapany_bokovi_2.png",
+  "./schemes/zakryty_tunelni_klapany_bokovi_3.png",
+  "./schemes/zhyvlennia_bloku.png",
+  "./sheets/AQteck_Bump_01.png",
+  "./sheets/AQteck_Bump_02.png",
+  "./sheets/AQteck_Bump_03.png",
+  "./sheets/AQteck_Bump_04.png",
+  "./sheets/AQteck_Bump_05.png",
+  "./sheets/AQteck_Bump_06.png",
+  "./sheets/AQteck_Bump_07.png",
+  "./sheets/AQteck_Bump_08.png",
+  "./sheets/AQteck_Bump_09.png",
+  "./sheets/AQteck_Bump_10.png",
+  "./sheets/AQteck_Bump_11.png",
+  "./sheets/AQteck_Bump_12.png",
+  "./sheets/AQteck_Bump_13.png"
+];
+async function cacheOne(cache,url){try{const res=await fetch(url,{cache:'no-cache'});if(res&&(res.ok||res.type==='opaque'))await cache.put(url,res.clone())}catch(e){}}
+self.addEventListener('install',event=>{event.waitUntil((async()=>{const cache=await caches.open(CACHE_NAME);await Promise.all(CORE_ASSETS.map(url=>cacheOne(cache,url)));await self.skipWaiting()})())});
+self.addEventListener('activate',event=>{event.waitUntil((async()=>{const keys=await caches.keys();await Promise.all(keys.filter(k=>k!==CACHE_NAME).map(k=>caches.delete(k)));await self.clients.claim()})())});
+self.addEventListener('fetch',event=>{const req=event.request;if(req.method!=='GET')return;const url=new URL(req.url);if(url.origin!==self.location.origin)return;event.respondWith((async()=>{const cache=await caches.open(CACHE_NAME);const cached=await cache.match(req,{ignoreSearch:true});if(cached)return cached;try{const res=await fetch(req);if(res&&res.ok)cache.put(req,res.clone());return res}catch(e){if(req.mode==='navigate')return(await cache.match('./index.html'))||Response.error();return Response.error()}})())});
