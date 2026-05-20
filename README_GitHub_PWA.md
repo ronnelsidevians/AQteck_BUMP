@@ -1,5 +1,7 @@
-# BUMP Search PWA v6
+# BUMP Search PWA v7
 
-У fullscreen тепер розтягується саме поле схеми на 100vw × 100vh. Навігація сторінок і зайві кнопки приховані. Кнопка `⛶ На весь екран` доступна тільки для повного листа `AQteck_Bump_XX.png`, після `Показати всю схему`.
+v7 додає псевдо-fullscreen fallback для iPhone/iOS і Telegram in-app browser. Якщо реальний Fullscreen API не спрацьовує, кнопка `⛶ На весь екран` переводить модалку у fixed 100vw × 100dvh режим без навігації сторінок.
 
-Замінити: `index.html`, `sw.js`, `manifest.webmanifest`, `favicon.ico`, `icons/`. Після оновлення очистити кеш/Service Worker.
+Кнопка доступна тільки для повного листа `AQteck_Bump_XX.png`, після `Показати всю схему`.
+
+Після оновлення заміни `index.html`, `sw.js`, `manifest.webmanifest`, `icons/`, `favicon.ico` і очисти Service Worker/кеш.
