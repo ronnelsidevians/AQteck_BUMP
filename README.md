@@ -1,2 +1,0 @@
-# AQteck_BUMP
-BUMP
