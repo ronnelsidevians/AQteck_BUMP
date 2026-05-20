@@ -1,5 +1,4 @@
-/* BUMP Search PWA service worker */
-const CACHE_NAME='bump-search-pwa-v1779259284';
+const CACHE_NAME='bump-search-pwa-v1779260866';
 const CORE_ASSETS=[
   "./",
   "./AQteck_Bump_01.png",

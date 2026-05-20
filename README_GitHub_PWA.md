@@ -1,5 +1,5 @@
-# BUMP Search PWA — GitHub Pages
+# BUMP Search PWA v5
 
-Замінити у репозиторії: `index.html`, `manifest.webmanifest`, `sw.js`, `favicon.ico`, папку `icons/`. Для повного офлайну також потрібні `schemes/` і `sheets/`.
+Fullscreen працює тільки після натискання `Показати всю схему`, тобто для повного листа `AQteck_Bump_XX.png`. Кнопка `⛶ На весь екран` прихована для схеми картки.
 
-Після заміни зроби hard refresh або очисти старий Service Worker у DevTools → Application → Service Workers → Update/Unregister.
+Замінити: `index.html`, `sw.js`, `manifest.webmanifest`, `favicon.ico`, `icons/`. Після оновлення очистити кеш/Service Worker.
