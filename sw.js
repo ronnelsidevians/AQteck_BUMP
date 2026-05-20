@@ -1,4 +1,4 @@
-const CACHE_NAME='bump-search-pwa-v1779260866';
+const CACHE_NAME='bump-search-pwa-v1779261834';
 const CORE_ASSETS=[
   "./",
   "./AQteck_Bump_01.png",
