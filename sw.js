@@ -1,4 +1,4 @@
-const CACHE_NAME='bump-search-pwa-v1779263702';
+const CACHE_NAME='bump-search-pwa-v1779275872';
 const CORE_ASSETS=[
   "./",
   "./AQteck_Bump_01.png",
@@ -110,6 +110,7 @@ const CORE_ASSETS=[
   "./schemes/shnek_zapovnennia_kormovoho_bunkera_2.png",
   "./schemes/shnek_zapovnennia_kormovoho_bunkera_3.png",
   "./schemes/shnek_zapovnennia_kormovoho_bunkera_4.png",
+  "./schemes/shnek_zapovnennia_kormovoho_bunkera_4_do10_a7.png",
   "./schemes/shnek_zapovnennia_vahovoho_bunkera.png",
   "./schemes/strichka_iaitsezboru_1.png",
   "./schemes/strichka_iaitsezboru_2.png",
