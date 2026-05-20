@@ -1,7 +1,5 @@
-# BUMP Search PWA v7
+# BUMP Search PWA v8
 
-v7 додає псевдо-fullscreen fallback для iPhone/iOS і Telegram in-app browser. Якщо реальний Fullscreen API не спрацьовує, кнопка `⛶ На весь екран` переводить модалку у fixed 100vw × 100dvh режим без навігації сторінок.
+v8 виправляє схему картки: при поверненні з повного листа/псевдо-fullscreen очищаються `pseudo-fullscreen`, inline width/height і body lock. Fullscreen доступний тільки для повного листа `AQteck_Bump_XX.png`.
 
-Кнопка доступна тільки для повного листа `AQteck_Bump_XX.png`, після `Показати всю схему`.
-
-Після оновлення заміни `index.html`, `sw.js`, `manifest.webmanifest`, `icons/`, `favicon.ico` і очисти Service Worker/кеш.
+Замінити: `index.html`, `sw.js`, `manifest.webmanifest`, `icons/`, `favicon.ico`. Після заміни очистити Service Worker/кеш або відкрити з `?v=8`.
