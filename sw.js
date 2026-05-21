@@ -1,1 +1,1 @@
-const CACHE_NAME='bump-search-pwa-v27-1779350625';self.addEventListener('install',e=>self.skipWaiting());self.addEventListener('activate',e=>self.clients.claim());
+const CACHE_NAME='bump-search-pwa-v37-adapter-script-fixed-1779370873';self.addEventListener('install',e=>self.skipWaiting());self.addEventListener('activate',e=>self.clients.claim());
